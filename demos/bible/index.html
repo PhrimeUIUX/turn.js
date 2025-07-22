@@ -22,7 +22,18 @@ body{
 }
 
 #book .cover h1{
-	color:white;
+	color:rgb(255, 255, 255);
+	text-align:center;
+	font-size:50px;
+	line-height:500px;
+	margin:0px;
+}
+
+
+
+}
+
+	color:rgb(255, 255, 255);
 	text-align:center;
 	font-size:50px;
 	line-height:500px;
@@ -86,8 +97,18 @@ body{
 
 	// Sample using dynamic pages with turn.js
 
-	var numberOfPages = 1000; 
+	var numberOfPages = 5; 
 
+	function getPageUrl(page) {
+	    const urls = {
+	        1: "pages/page1.html",
+	        2: "pages/page2.html",
+	        3: "pages/page3.html",
+	        4: "pages/page4.html",
+	        5: "pages/page5.html"
+	    };
+	    return urls[page] || "about:blank";
+	}
 
 	// Adds the pages that the book will need
 	function addPage(page, book) {
