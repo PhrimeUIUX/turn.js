@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+<style>
+ #book .page {
+    position: relative;
+}
+
+#book .page iframe {
+    pointer-events: none; /* Prevent iframe from blocking page turns */
+}
+
+/* Optional: Enable interaction when user clicks */
+#book .page iframe.active {
+    pointer-events: auto;
+}
+
+</style>
+<script>
+    let startX = 0;
+
+    document.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+    });
+
+    document.addEventListener('touchend', function(e) {
+        let endX = e.changedTouches[0].clientX;
+        let deltaX = endX - startX;
+
+        if (Math.abs(deltaX) > 50) { // threshold
+            if (deltaX > 0) {
+                // Swipe right – go to previous page
+                window.parent.$('#book').turn('previous');
+            } else {
+                // Swipe left – go to next page
+                window.parent.$('#book').turn('next');
+            }
+        }
+    });
+</script>
+
+<body>
+    <div>WTF78</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

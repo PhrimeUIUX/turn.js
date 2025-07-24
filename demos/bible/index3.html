@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="../../turn.min.js"></script>
+
+  <style>
+    body {
+      background: #ccc;
+    }
+
+    #book {
+      width: 800px;
+      height: 500px;
+    }
+
+    #book .turn-page {
+      background-color: white;
+    }
+
+    #book .page {
+      width: 100%;
+      height: 100%;
+    }
+
+    #book .page iframe {
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #book .loader {
+      background-image: url(loader.gif);
+      width: 24px;
+      height: 24px;
+      display: block;
+      position: absolute;
+      top: 238px;
+      left: 188px;
+    }
+
+    #controls {
+      width: 800px;
+      text-align: center;
+      margin: 20px 0px;
+      font: 30px arial;
+    }
+
+    #controls input,
+    #controls label {
+      font: 30px arial;
+    }
+
+    #book .odd {
+      background-image: -webkit-linear-gradient(left, #FFF 95%, #ddd 100%);
+    }
+
+    #book .even {
+      background-image: -webkit-linear-gradient(right, #FFF 95%, #ddd 100%);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="book">
+    <!-- ✅ Make the bgpage part of the book -->
+    <div class="page">
+      <iframe src="pages/bgpage.html"></iframe>
+    </div>
+  </div>
+
+  <div id="controls">
+    <label for="page-number">Page:</label>
+    <input type="text" size="3" id="page-number"> of <span id="number-pages"></span>
+  </div>
+
+  <script>
+    const numberOfPages = 6; // 1 bgpage + 5 content pages
+
+    function getPageUrl(page) {
+      const urls = {
+        2: "pages/page1.html",
+        3: "pages/page2.html",
+        4: "pages/page3.html",
+        5: "pages/page4.html",
+        6: "pages/page5.html"
+      };
+      return urls[page] || "about:blank";
+    }
+
+    function addPage(page, book) {
+      if (!book.turn('hasPage', page)) {
+        const element = $('<div />', {
+          class: 'page ' + (page % 2 === 0 ? 'odd' : 'even'),
+          id: 'page-' + page
+        }).html('<i class="loader"></i>');
+
+        book.turn('addPage', element, page);
+
+        setTimeout(() => {
+          element.html('<iframe src="' + getPageUrl(page) + '"></iframe>');
+        }, 1000);
+      }
+    }
+
+    $(window).ready(function () {
+      $('#book').turn({
+        acceleration: true,
+        pages: numberOfPages,
+        elevation: 50,
+        gradients: !$.isTouch,
+        when: {
+          turning: function (e, page, view) {
+            const range = $(this).turn('range', page);
+            for (let p = range[0]; p <= range[1]; p++) {
+              addPage(p, $(this));
+            }
+          },
+          turned: function (e, page) {
+            $('#page-number').val(page);
+          }
+        }
+      });
+
+      $('#number-pages').html(numberOfPages);
+
+      $('#page-number').keydown(function (e) {
+        if (e.keyCode === 13)
+          $('#book').turn('page', $(this).val());
+      });
+    });
+
+    $(window).on('keydown', function (e) {
+      if (e.target.tagName.toLowerCase() !== 'input') {
+        if (e.keyCode === 37) $('#book').turn('previous');
+        else if (e.keyCode === 39) $('#book').turn('next');
+      }
+    });
+  </script>
+
+</body>
+
+</html>

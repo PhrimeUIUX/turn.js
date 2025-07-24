@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+<style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-image: url('https://storage.googleapis.com/ppc_toda_web_app/businesssummit/bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .white-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      height: 92%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-family: sans-serif;
+    }
+
+ #png {
+    width: 80%; /* You can adjust as needed */
+    height: 80%; /* Or use px like 300px */
+    background-image: url('https://storage.googleapis.com/ppc_toda_web_app/businesssummit/covercontent.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  </style>
+</head>
+<body>
+
+<div class="white-overlay">
+  <div id="png" ></div>
+</div>
+<script>
+    let startX = 0;
+
+    document.addEventListener('touchstart', function (e) {
+        startX = e.touches[0].clientX;
+    });
+
+    document.addEventListener('touchend', function (e) {
+        let endX = e.changedTouches[0].clientX;
+        let deltaX = endX - startX;
+
+        if (Math.abs(deltaX) > 50) { // threshold
+            if (deltaX > 0) {
+                // Swipe right – go to previous page
+                window.parent.$('#book').turn('previous');
+            } else {
+                // Swipe left – go to next page
+                window.parent.$('#book').turn('next');
+            }
+        }
+    });
+</script>
+
+<body>
+    <div>W88TF</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
