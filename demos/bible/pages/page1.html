@@ -17,6 +17,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    pointer-events: auto;
   }
 
   .white-overlay {
@@ -53,17 +54,17 @@
   }
 
   #logo {
-    position: ;
+    
     width: 50%;
     aspect-ratio: 1/1.15;
-    
     margin: 30% 0% 0% 0%;
-    
+    transition: all 0.3s ease;
+    pointer-events: auto;
 
   }
 
-  #logo.hover {
-    position: ;
+  #logo:hover {
+  
     width: 60%;
     aspect-ratio: 1/1.15;
     
@@ -84,41 +85,4 @@
   <div id="top">CO-PRESENTED BY</div>
 
 </body>
-
-
-<script>
-  let startX = 0;
-
-  document.addEventListener('touchstart', function (e) {
-    startX = e.touches[0].clientX;
-  });
-
-  document.addEventListener('touchend', function (e) {
-    let endX = e.changedTouches[0].clientX;
-    let deltaX = endX - startX;
-
-    if (Math.abs(deltaX) > 50) { // threshold
-      if (deltaX > 0) {
-        // Swipe right – go to previous page
-        window.parent.$('#book').turn('previous');
-      } else {
-        // Swipe left – go to next page
-        window.parent.$('#book').turn('next');
-      }
-    }
-  });
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
